@@ -8,12 +8,14 @@ import FeatureCard from '@/components/FeatureCard';
 import GlassButton from '@/components/GlassButton';
 import SkeletonPreview from '@/components/SkeletonPreview';
 import CodeBlock from '@/components/CodeBlock';
+import ElementSelector from '@/components/ElementSelector';
 import { Link } from 'react-router-dom';
 
 const Index = () => {
   const [step, setStep] = React.useState(1);
   const [selectedHtml, setSelectedHtml] = React.useState('');
   const [generatedCode, setGeneratedCode] = React.useState('');
+  const [isDemoActive, setIsDemoActive] = React.useState(false);
 
   // Sample selected HTML for demo purposes
   const sampleHtml = `
@@ -88,11 +90,18 @@ const Index = () => {
 }
   `;
 
+  const handleSelectionComplete = (html: string, skeletonCode: string) => {
+    setSelectedHtml(html);
+    setGeneratedCode(skeletonCode);
+    setStep(2);
+    toast.success('Element selected and skeleton generated!');
+  };
+
   const handleGenerateSkeleton = () => {
-    // In a real extension, this would analyze the selected HTML
-    // For demo, we'll use the sample data
+    // For demo mode, use sample data
     setSelectedHtml(sampleHtml);
     setGeneratedCode(sampleGeneratedCode);
+    setIsDemoActive(true);
     
     setTimeout(() => {
       setStep(2);
@@ -132,6 +141,7 @@ const Index = () => {
       <Header />
       
       <main className="container px-4 pt-8 pb-16 max-w-6xl">
+        {/* Hero section */}
         <section className="text-center mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -176,6 +186,7 @@ const Index = () => {
           </motion.div>
         </section>
         
+        {/* Features section */}
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {features.map((feature, index) => (
             <FeatureCard
@@ -188,6 +199,12 @@ const Index = () => {
           ))}
         </section>
         
+        {/* Element selection demo */}
+        {isDemoActive && !selectedHtml && (
+          <ElementSelector onSelectionComplete={handleSelectionComplete} />
+        )}
+        
+        {/* Generated skeleton section */}
         <AnimatePresence mode="wait">
           {step === 2 && (
             <motion.section 
@@ -202,7 +219,12 @@ const Index = () => {
                 <GlassButton 
                   size="sm" 
                   variant="outline"
-                  onClick={() => setStep(1)}
+                  onClick={() => {
+                    setStep(1);
+                    setIsDemoActive(false);
+                    setSelectedHtml('');
+                    setGeneratedCode('');
+                  }}
                 >
                   Reset
                 </GlassButton>
@@ -276,6 +298,7 @@ const Index = () => {
           )}
         </AnimatePresence>
         
+        {/* Call to action section */}
         <section className="glass rounded-xl p-8 text-center max-w-3xl mx-auto">
           <motion.h2 
             className="text-2xl font-bold mb-4"
@@ -308,6 +331,7 @@ const Index = () => {
         </section>
       </main>
       
+      {/* Footer */}
       <footer className="py-6 border-t">
         <div className="container px-4 flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
           <p>© 2023 SkeletonSnapper. All rights reserved.</p>
