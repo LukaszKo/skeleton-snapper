@@ -33,6 +33,8 @@ export interface ButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, keyof HTMLMotionProps<"button">>,
     VariantProps<typeof buttonVariants> {
   isLoading?: boolean;
+  className?: string;
+  children?: React.ReactNode;
 }
 
 const GlassButton = React.forwardRef<HTMLButtonElement, ButtonProps>(

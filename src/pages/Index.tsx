@@ -1,15 +1,14 @@
-
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Wand2, Code, Eye, MousePointer, ArrowRight } from 'lucide-react';
 import { toast } from 'sonner';
+import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import FeatureCard from '@/components/FeatureCard';
 import GlassButton from '@/components/GlassButton';
 import SkeletonPreview from '@/components/SkeletonPreview';
 import CodeBlock from '@/components/CodeBlock';
 import ElementSelector from '@/components/ElementSelector';
-import { Link } from 'react-router-dom';
 
 const Index = () => {
   const [step, setStep] = React.useState(1);
@@ -17,7 +16,6 @@ const Index = () => {
   const [generatedCode, setGeneratedCode] = React.useState('');
   const [isDemoActive, setIsDemoActive] = React.useState(false);
 
-  // Sample selected HTML for demo purposes
   const sampleHtml = `
 <div class="user-card">
   <div class="user-header">
@@ -45,7 +43,6 @@ const Index = () => {
 </div>
   `;
 
-  // Sample generated skeleton code
   const sampleGeneratedCode = `
 // HTML for the skeleton loader
 <div class="user-card skeleton-wrapper">
@@ -98,7 +95,6 @@ const Index = () => {
   };
 
   const handleGenerateSkeleton = () => {
-    // For demo mode, use sample data
     setSelectedHtml(sampleHtml);
     setGeneratedCode(sampleGeneratedCode);
     setIsDemoActive(true);
@@ -180,6 +176,15 @@ const Index = () => {
                 variant="outline"
               >
                 How to Install
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </GlassButton>
+            </Link>
+            <Link to="/test">
+              <GlassButton 
+                size="lg" 
+                variant="ghost"
+              >
+                Test Selector
                 <ArrowRight className="ml-2 h-4 w-4" />
               </GlassButton>
             </Link>
